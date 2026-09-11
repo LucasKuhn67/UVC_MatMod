@@ -161,6 +161,10 @@ C
       ! normal n is RECOMPUTED from the partial relative stress
       ! Z(lam) = s_trial - sum_k e_k(lam) * alpha_k(committed)
       ! n = Z/||Z||
+      ! Suchocki, C. (2022). On finite element implementation of cyclic
+      ! elastoplasticity: theory, coding, and exemplary problems.
+      ! Acta Mechanica, 233, 83-120.
+      ! https://doi.org/10.1007/s00707-021-03069-3
 C
 C ----------------------------------------------------------------------C
       ! Calculate the consitency parameter (plastic multiplier)
