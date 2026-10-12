@@ -126,7 +126,7 @@ C
         gamma_k = chab_coef(i, 2)
         alpha_k(i) = SIGN(ONE, yield_radius) * c_k / gamma_k -
      1  (SIGN(ONE, yield_radius) * c_k / gamma_k - alpha_k_init(i)) *
-     2  EXP(-gamma_k * (ep_eq - ep_eq_init))
+     2  EXP(-gamma_k * ABS(e_p_total))
       END DO
       alpha = SUM(alpha_k(:))  ! don't put in the loop since will change the SIGN
 C            

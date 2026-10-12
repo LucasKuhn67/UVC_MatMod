@@ -186,7 +186,7 @@ C
         alpha_upd(:) = ZERO
         hard_kin_H = ZERO
         DO i = 1, n_backstresses
-          e_k = EXP(-gamma_k(i) * (ep_eq - ep_eq_init))
+          e_k = EXP(-gamma_k(i) * SQRT23 * plastic_mult)
           alpha_upd = alpha_upd + e_k * alpha_k(i, :)
           hard_kin_H = hard_kin_H +
      1    SQRT23 * C_k(i) / gamma_k(i) * (ONE - e_k)
@@ -198,7 +198,7 @@ C
         ! Calculate the kinematic hardening parameters
         kin_modulus = ZERO
         DO i = 1, n_backstresses
-          e_k = EXP(-gamma_k(i) * (ep_eq - ep_eq_init))
+          e_k = EXP(-gamma_k(i) * SQRT23 * plastic_mult)
           kin_modulus = kin_modulus + C_k(i) * e_k 
      1    - SQRT(THREE/TWO)*gamma_k(i)*e_k
      2    * dotprod6(yield_normal, alpha_k(i, :))
@@ -235,7 +235,7 @@ C
         alpha(:) = ZERO
         d_vec(:) = ZERO
         DO i = 1, n_backstresses  ! Update backstress components
-          e_k = EXP(-gamma_k(i) * (ep_eq - ep_eq_init))
+          e_k = EXP(-gamma_k(i) * SQRT23 * plastic_mult)
           d_vec = d_vec + SQRT23 * gamma_k(i) * e_k * alpha_k(i, :)
           alpha_k(i, :) = e_k * alpha_k(i, :) +
      1    SQRT23 * yield_normal * C_k(i) / gamma_k(i) * (ONE - e_k)
