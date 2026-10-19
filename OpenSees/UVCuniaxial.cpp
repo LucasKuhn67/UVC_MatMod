@@ -231,7 +231,7 @@ void UVCuniaxial::returnMapping(double strainIncrement) {
     for (int i = 0; i < nBackstresses; ++i) {
       alphaKTrial[i] = sgn<double>(stressRadius) * cK[i] / gammaK[i] -
         (sgn<double>(stressRadius) * cK[i] / gammaK[i] - alphaKConverged[i]) *
-        exp(-gammaK[i] * (ePEq - strainPEqConverged));
+          exp(-gammaK[i] * fabs(ePTotal));
       alpha += alphaKTrial[i];
     }
 

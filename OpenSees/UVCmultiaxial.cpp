@@ -283,7 +283,7 @@ int UVCmultiaxial::returnMapping() {
     kinematicModulus = 0.;
     alphaUpd.Zero();
     for (unsigned int i = 0; i < nBackstresses; ++i) {
-      eK = calculateEk(i);
+      eK = exp(-gammaK[i] * sqrt(2. / 3.) * consistParam);
       kinematicModulus += sqrt(2. / 3.) * cK[i] / gammaK[i] *( 1- eK);
       alphaUpd += eK * alphaKConverged[i];
     }
@@ -293,7 +293,7 @@ int UVCmultiaxial::returnMapping() {
     flowNormal = stressRelative / (RETURN_MAP_TOL + stressRelativeNorm);
     kin_modulus = 0.;
     for (unsigned int i = 0; i < nBackstresses; ++i) {
-        eK = calculateEk(i);
+        eK = exp(-gammaK[i] * sqrt(2. / 3.) * consistParam);
         kin_modulus += cK[i]* eK- sqrt(3. / 2.) *gammaK[i]*eK*dotprod6(flowNormal, alphaKConverged[i]);
     }
 
@@ -325,7 +325,7 @@ int UVCmultiaxial::returnMapping() {
       strainPlasticTrial(i) = strainPlasticConverged(i) + 2. * consistParam * flowNormal(i);
     stressTrial = elasticMatrix * (strainTrial - strainPlasticTrial);
     for (unsigned int i = 0; i < nBackstresses; ++i) {
-      eK = calculateEk(i);
+      eK = exp(-gammaK[i] * sqrt(2. / 3.) * consistParam);
       alphaKTrial[i] = eK * alphaKConverged[i] + sqrt(2. / 3.) * cK[i] / gammaK[i] * (1. - eK) * flowNormal;
     }
     alphaDiff = alphaUpd - alpha;
@@ -375,7 +375,7 @@ void UVCmultiaxial::calculateStiffness(double consistParam, double stressRelativ
     // Kinematic hardening parameters
     kinematicModulus = 0.;
     for (unsigned int i = 0; i < nBackstresses; ++i) {
-      eK = calculateEk(i);
+      eK = exp(-gammaK[i] * sqrt(2. / 3.) * consistParam);
       kinematicModulus += cK[i] * eK - sqrt(3. / 2.) * gammaK[i] * eK * dotprod6(flowNormal, alphaKConverged[i]);
     }
 
@@ -383,7 +383,7 @@ void UVCmultiaxial::calculateStiffness(double consistParam, double stressRelativ
     theta_1 = 1.0 - 2.0 * shearModulus * consistParam / stressRelativeNorm;
     theta_2 = 1.0 / beta - (1.0 - theta_1 );
     for (unsigned int i = 0; i < nBackstresses; ++i) {
-        eK = calculateEk(i);
+        eK = exp(-gammaK[i] * sqrt(2. / 3.) * consistParam);
         d_vec += sqrt(2. / 3.) * gammaK[i] * eK * alphaKConverged[i];
     }
     aDotN = dotprod6(flowNormal, d_vec);
